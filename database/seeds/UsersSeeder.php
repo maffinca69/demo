@@ -27,8 +27,8 @@ class UsersSeeder extends Seeder
 
 
         $manager = new User();
-        $manager->login = 'admin';
-        $manager->password = Hash::make('admin');
+        $manager->login = 'manager';
+        $manager->password = Hash::make('manager');
 
         $role = Role::query()
             ->where('name', Role::ROLE_MANAGER)

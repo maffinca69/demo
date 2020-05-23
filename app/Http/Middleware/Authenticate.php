@@ -4,6 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class Authenticate
 {
@@ -17,7 +21,7 @@ class Authenticate
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @param \Illuminate\Contracts\Auth\Factory $auth
      * @return void
      */
     public function __construct(Auth $auth)
@@ -26,19 +30,30 @@ class Authenticate
     }
 
     /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
-     * @return mixed
+     * @param \Illuminate\Http\Request $request
+     * @param Closure $next
+     * @param mixed ...$guards
+     * @return \Illuminate\Http\JsonResponse|mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next, ...$guards)
     {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+        $errorMessage = 'Unknown error';
+        try {
+            JWTAuth::parseToken()->authenticate();
+            return $next($request);
+        } catch (TokenExpiredException $e) {
+            $errorMessage = 'Token is expired';
+        } catch (TokenInvalidException  $e) {
+            $errorMessage = 'Token is invalid';
+        } catch (JWTException  $e) {
+            $errorMessage = 'Token is required';
         }
 
-        return $next($request);
+        return response()->json([
+            'status' => false,
+            'error' => $errorMessage,
+            'timestamp' => time(),
+            'code' => 401
+        ], 401);
     }
 }

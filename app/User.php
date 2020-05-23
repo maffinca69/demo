@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * Class User
@@ -17,9 +18,12 @@ use Laravel\Lumen\Auth\Authorizable;
  * @property integer $id
  * @property Role $role
  */
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
     use Authenticatable, Authorizable;
+
+    const ROLE_ADMIN = 1;
+    const ROLE_MANAGER = 1;
 
     /**
      * The attributes that are mass assignable.
@@ -42,5 +46,25 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function role()
     {
         return $this->belongsTo('App\Models\Role');
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

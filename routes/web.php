@@ -11,14 +11,29 @@
 |
 */
 $router->group(['prefix' => 'api'], function () use ($router) {
-    // Авторизация
-    $router->group(['prefix' => 'items'], function () use ($router) {
-        $router->get('/list', 'ItemController@list');
-        $router->get('/{id}', 'ItemController@get');
-    });
 
-    // Пользователи
-    $router->group(['prefix' => 'users'], function () use ($router) {
-        $router->get('/list', 'UserController@list');
+    // Авторизация
+    $router->post('/login', 'AuthController@login');
+
+
+    // Все остальное под авторизацией
+    $router->group(['middleware' => 'auth'], function ($router) {
+        // Товары
+        $router->group(['prefix' => 'items'], function () use ($router) {
+            $router->get('/', 'ItemController@list');
+            $router->get('/{id}', 'ItemController@get');
+            $router->post('/create', 'ItemController@create');
+            $router->post('/delete', 'ItemController@delete');
+        });
+
+        // Пользователи
+        $router->group(['prefix' => 'users'], function () use ($router) {
+            $router->post('/add', 'AuthController@create');
+        });
+
+        // Роли
+        $router->group(['prefix' => 'roles'], function () use ($router) {
+            $router->get('/', 'RoleController@list');
+        });
     });
 });

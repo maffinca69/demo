@@ -25,6 +25,7 @@ class UserPresenter implements PresenterInterface
         return [
             'login' => $user->login,
             'role' => [
+                'id' => $role->id,
                 'name' => Role::ROLES[$role->name],
                 'description' => $role->description
             ]

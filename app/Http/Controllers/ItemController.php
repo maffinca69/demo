@@ -12,7 +12,7 @@ class ItemController extends BaseController
      * Отдаем данные по всем товарам
      */
     public function list() {
-        $items = Item::query()->paginate(15);
+        $items = Item::query()->orderByDesc('id')->paginate(15);
         return response()->json($items);
     }
 
@@ -22,7 +22,7 @@ class ItemController extends BaseController
      * @return \Illuminate\Http\JsonResponse
      */
     public function get(int $id) {
-        $item = Item::query()->find($id)->first();
+        $item = Item::find($id);
         return response()->json($item);
     }
 

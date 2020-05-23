@@ -33,7 +33,7 @@ class ItemController extends BaseController
      */
     public function create(Request $request)
     {
-        $item = Item::query()->updateOrCreate($request->all());
+        $item = Item::updateOrCreate($request->get('id', 0), $request->all());
         return response()->json(['status' => 'success', 'id' => $item->id]);
     }
 

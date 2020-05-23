@@ -27,13 +27,13 @@ class ItemController extends BaseController
     }
 
     /**
-     * Создаем новый товар
+     * Создаем новый товар или обновляем существующий
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request)
     {
-        $item = Item::query()->create($request->all());
+        $item = Item::query()->updateOrCreate($request->all());
         return response()->json(['status' => 'success', 'id' => $item->id]);
     }
 

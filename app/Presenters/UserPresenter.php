@@ -23,6 +23,7 @@ class UserPresenter implements PresenterInterface
         $user = $model;
 
         return [
+            'id' => $user->id,
             'login' => $user->login,
             'role' => [
                 'id' => $role->id,

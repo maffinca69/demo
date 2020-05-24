@@ -29,7 +29,8 @@ class UserController extends BaseController
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function get(int $id) {
+    public function get(int $id)
+    {
         $item = Item::find($id);
         return response()->json($item);
     }
@@ -64,10 +65,11 @@ class UserController extends BaseController
             $user = User::query()->findOrFail($request->get('id'));
             $role = Role::query()->find($request->get('role_id', 2));
             $user->role()->associate($role)->save();
-            $user->update([
-                'login' => $request->get('login', ''),
-                'password' => Hash::make($request->get('password', ''))
-            ]);
+            $user->login = $request->get('login', '');
+            if ($request->filled('password')) {
+                $user->password = Hash::make($request->get('password', ''));
+            }
+            $user->update();
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Пользователь не найден']);

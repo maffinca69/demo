@@ -28,11 +28,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
         // Пользователи
         $router->group(['prefix' => 'users'], function () use ($router) {
-            $router->post('/create', 'AuthController@create');
-            $router->post('/update', 'AuthController@update');
-            $router->post('/delete', 'AuthController@delete');
-            $router->get('/', 'AuthController@list');
-            $router->get('/{id}', 'AuthController@get');
+            $router->post('/create', 'UserController@create');
+            $router->post('/update', 'UserController@update');
+            $router->post('/delete', 'UserController@delete');
+            $router->get('/', 'UserController@list');
+            $router->get('/{id}', 'UserController@get');
         });
 
         // Роли

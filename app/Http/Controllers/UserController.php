@@ -62,7 +62,7 @@ class UserController extends BaseController
     {
         try {
             $user = User::query()->findOrFail($request->get('id'));
-            $role = Role::query()->find($request->get('role_id', 2))->first();
+            $role = Role::query()->find($request->get('role_id', 2));
             $user->role()->associate($role)->save();
             $user->update([
                 'login' => $request->get('login', ''),

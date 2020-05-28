@@ -35,7 +35,10 @@ class RoleController
     public function delete(Request $request)
     {
         $role = Role::query()->find($request->get('id'));
-        if ($role->exists()) {
+        if ($role) {
+            if ($role->users()->count()) {
+                return response()->json(['error' => 'Нельзя удалить роль, к которой привязаны пользователи']);
+            }
             $role->delete();
             return response()->json(['success' => true]);
         }

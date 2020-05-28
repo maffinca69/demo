@@ -20,4 +20,8 @@ class Role extends Model
     public $timestamps = false;
 
     protected $fillable = ['title', 'description'];
+
+    public function users() {
+        return $this->hasMany('App\User');
+    }
 }

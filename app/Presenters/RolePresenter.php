@@ -18,7 +18,7 @@ class RolePresenter implements PresenterInterface
     {
         return [
             'id' => $model->id,
-            'name' => Role::ROLES[$model->name],
+            'name' => $model->title,
             'description' => $model->description
         ];
     }

@@ -27,7 +27,7 @@ class AuthController extends BaseController
     {
         $credentials = $request->only('login', 'password');
         if ($token = auth()->attempt($credentials, ['exp' => Carbon::now()->addYears(1)->timestamp])) {
-            return response()->json(['token' => $token, 'role' => auth()->user()->role->id]);
+            return response()->json(['token' => $token, 'role' => auth()->user()->role->title]);
         }
         return response()->json(['error' => 'Неправильный логин или пароль']);
     }

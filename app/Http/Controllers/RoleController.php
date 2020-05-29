@@ -15,7 +15,7 @@ class RoleController
      */
     public function list()
     {
-        $roles = Role::query()->paginate(7)->map(function ($model) {
+        $roles = Role::query()->paginate(15)->map(function ($model) {
             return RolePresenter::present($model);
         });
         return response()->json($roles);

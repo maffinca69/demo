@@ -14,7 +14,7 @@ class ModifyItemsTable extends Migration
     public function up()
     {
         Schema::table('items', function (Blueprint $table) {
-            $table->foreignId('category_id')->nullable()->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade');
         });
     }
 
@@ -25,6 +25,8 @@ class ModifyItemsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('items', function (Blueprint $table) {
+            $table->dropColumn('category_id');
+        });
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Presenters\ItemPresenter;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
@@ -12,7 +13,12 @@ class ItemController extends BaseController
      * Отдаем данные по всем товарам
      */
     public function list() {
-        $items = Item::query()->orderByDesc('id')->paginate(25);
+        $items = Item::query()
+            ->orderByDesc('id')
+            ->paginate(25)
+            ->map(function ($q) {
+                return ItemPresenter::present($q);
+            });
         return response()->json($items);
     }
 

@@ -49,7 +49,7 @@ class UserController extends BaseController
         $user = new User();
         $user->login = $request->get('login', '');
         $user->password = Hash::make($request->get('password', ''));
-        $role = Role::query()->find($request->get('role_id'))->first();
+        $role = Role::query()->find($request->get('role_id'));
         $user->role()->associate($role);
         $user->save();
         return response()->json(['success' => true, 'id' => $user->id]);

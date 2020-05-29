@@ -47,9 +47,6 @@ class RoleController
 
     public function create(Request $request)
     {
-        if ($request->filled('id')) {
-
-        }
         $role = Role::updateOrCreate(['id' => $request->get('id', 0)], $request->all());
         return response()->json(['status' => 'success', 'id' => $role->id]);
     }

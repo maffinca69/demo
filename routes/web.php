@@ -42,5 +42,13 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->post('/delete', 'RoleController@delete');
             $router->post('/create', 'RoleController@create');
         });
+
+        // Категории
+        $router->group(['prefix' => 'categories'], function () use ($router) {
+            $router->get('/', 'CategoryController@list');
+            $router->get('/{id}', 'CategoryController@get');
+            $router->post('/delete', 'CategoryController@delete');
+            $router->post('/create', 'CategoryController@create');
+        });
     });
 });

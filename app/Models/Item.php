@@ -11,4 +11,9 @@ class Item extends Model
     public function getIsSalesAttribute($value) {
         return (boolean) $value;
     }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
 }

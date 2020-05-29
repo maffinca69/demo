@@ -11,7 +11,6 @@ class ItemPresenter implements PresenterInterface
 
     public static function present(Model $model)
     {
-        /** Item @model */
         $category = $model->category;
         return [
             'id' => $model->id,
@@ -21,10 +20,7 @@ class ItemPresenter implements PresenterInterface
             'image_url' => $model->image_url,
             'count' => $model->count,
             'is_sales' => $model->is_sales,
-            'category' => $category ? [
-                'id' => $category->id,
-                'title' => $category->title,
-            ] : []
+            'category' => $category
         ];
     }
 }

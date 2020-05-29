@@ -29,6 +29,7 @@ class ItemController extends BaseController
      */
     public function get(int $id) {
         $item = Item::find($id);
+        $item = ItemPresenter::present($item);
         return response()->json($item);
     }
 
